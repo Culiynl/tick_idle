@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tick | Idle</title>
+    
+    <!-- MADE BY ADRIAN P -->
+
+    <style>
+    img { width:0; }
+        input {
+            width: 100%;
+            height:100px;
+            border: none;
+            text-align: center;
+            font-size: 100px;
+            color: white;
+            background-color: rgba(0, 116, 116, 0.479);
+background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+background-size: 1800% 1800%;
+
+-webkit-animation: rainbow 60s ease infinite;
+-z-animation: rainbow 60s ease infinite;
+-o-animation: rainbow 60s ease infinite;
+  animation: rainbow 60s ease infinite;
+}
+
+label {
+            border: none;
+            text-align: center;
+            font-size: 25px;
+            padding: 20px;
+            border: 1px solid #0e0052;
+            color: white;
+            background-color: rgba(0, 116, 116, 0.479);
+background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);
+background-size: 1800% 1800%;
+
+-webkit-animation: rainbow 60s ease infinite;
+-z-animation: rainbow 60s ease infinite;
+-o-animation: rainbow 60s ease infinite;
+  animation: rainbow 60s ease infinite;
+}
+
+@-webkit-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-moz-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-o-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+@-webkit-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-moz-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@-o-keyframes rainbow {
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+@keyframes rainbow { 
+    0%{background-position:0% 82%}
+    50%{background-position:100% 19%}
+    100%{background-position:0% 82%}
+}
+
+        button {
+            background: linear-gradient(-30deg, #0b1b3d 25%, #08142b 75%);
+            padding: 20px 40px;
+            margin: 12px;
+            display: inline-block;
+            -webkit-transform: translate(0%, 0%);
+            transform: translate(0%, 0%);
+            overflow: hidden;
+            color: #d4e0f7;
+            font-size: 20px;
+            letter-spacing: 2.5px;
+            text-align: center;
+            text-transform: uppercase;
+            text-decoration: none;
+            -webkit-box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid #0e0052;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #0b1b3d 25%, #08142b 75%);
+            background-color: rgb(185, 185, 185);
+            border: 1px solid #0e0052;
+        }
+
+        button:after {
+            content: "";
+            background: #a5eeed;
+            display: block;
+            position: absolute;
+            padding-top: 300%;
+            padding-left: 350%;
+            margin-left: -100%!important;
+            margin-top: -120%;
+            opacity: 0;
+            transition: all .5s;
+            border: 1px solid #0e0052;
+        }
+
+        button:active:after {
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+            border: 1px solid #0e0052;
+        }
+
+
+        body {
+            user-select: none;
+            background-color: rgb(0, 17, 43);
+            color:white;
+        }
+    </style>
+
+    <script>
+        
+
+        // Other
+
+        var instructions = 0;
+        var holding = 0;
+        var score = 0;
+        var tick = 100;
+        var spaceBarIncrease = 0.00001;
+        
+        // Ticks
+
+        var tickCost = 1;
+        var tickAmount = 1;
+        var tickUpgradeAmount = 0.25;
+
+        // Auto Ticks
+        
+        var autoTickCost = 5;
+        var autoTickAmount = 0;
+        var autoTickUpgradeAmount = 1;
+
+        // Upgraded Auto Ticks
+        
+        var upgradeAutoTickCost = 10;
+        var upgradeAutoTickAmount = 0;
+
+        // Upgrades
+        var originalMultiplier = 1;
+        var multiplier = 1;
+        var hasBoughtMultiplier = 0;
+
+        // Auto Buy
+
+        var autoBuyCost = 500;
+        var autoBuyAmount = 1;
+        var autoBuyTime = 10000;
+        var autoBuyCheck = null;
+
+        var autoBuyNumber = 0;
+
+        // Upgrade EXP ticks
+        var expBuyCost = 5000;
+        var expBuyAmount = 0;
+        var expUpgradeAmount = 10;
+
+        // EXP Auto Tick
+        var expAutoTickCost = 2500;
+        var expAutoTickAmount = 0;
+        var expUpgradeAmount = 1;
+
+        // Saves
+        var string = ""
+        var load = ""
+
+        // Stats
+        var totalTicks = 0;
+
+        // Prestige
+        var prestigePoints = 0;
+        var prestigeMultiplier = 1;
+        var prestigeCheck = 100000;
+
+        var firstTPSUpgrade = 0;
+        var secondTPSUpgrade = 0;
+        var thirdTPSUpgrade = 0;
+        var fourthTPSUpgrade = 0;
+
+        var firstTick = 0;
+        var secondTick = 0;
+
+        var firstScore = 0;
+        var secondScore = 0;
+
+        // Mega Prestige
+        var MPSPoints = 0;
+        
+        var firstMPS = 0;
+        var secondMPS = 0;
+
+        // Achievements
+        var totalUpgrades = 0;
+
+        var upgradeAchievement = 0;
+
+        function achivement(x) {
+            if (x == 1) {
+                upgradeAchievement = 1;
+            }
+        }
+
+        function instructionsToggle() {
+            if (instructions == 1) {
+                document.getElementById('instructions').style.display = 'none';
+                document.getElementById('instructionsButton').innerHTML = 'Show Instructions';
+                instructions = 0;
+            } else {                
+                document.getElementById('instructions').style.display = 'block';
+                document.getElementById('instructionsButton').innerHTML = 'Hide Instructions';
+                instructions = 1;
+            }
+        }
+
+        document.onkeydown = function(e) {
+            if (e.keyCode == 32) {
+                holding = 1;
+            }
+        }
+
+        document.onkeyup = function(e) {
+            if (e.keyCode == 32) {
+                holding = 0;
+            }
+        }
+
+        function doTick() {
+            if (holding == 1) {
+                score += 1;
+                multiplier += spaceBarIncrease;
+                updateValues();
+                totalTicks += 1;
+            }
+            score += autoTicks();
+            totalTicks += autoTicks()
+            updateValues();
+        }
+        setInterval(doTick, tick);
+
+        function upgradeTicks() {
+            if (score >= tickCost*(tickAmount/2)) {
+                document.getElementById("upgradeTicks").innerHTML = "Tick Upgrade Cost: " + tickCost*(tickAmount/2);
+                tickAmount += 1;
+                score -= tickCost*(tickAmount/2)
+                tick -= tickUpgradeAmount;
+                document.getElementById("tickSpeed").value = "Tick: " + tick.toFixed(2);
+                updateValues();
+                if (tick <= 95) {
+                    document.getElementById("autoTickUpgrade").style.display = "inline-block";
+                }
+                if (tick <= 90) {
+                    document.getElementById("autoBuy").style.display = "inline-block";
+                }
+                if (tick <= 75) {
+                    document.getElementById("expUpgrader").style.display = "inline-block";
+                }
+                if (tick <= 85) {                    
+                    document.getElementById("expAutoTick").style.display = "inline-block";
+                }
+                if (tick <= 80 && hasBoughtMultiplier == 0) {
+                    document.getElementById("productionMultiplier").style.display = "block";
+                }
+                if (tick <= 70) {
+                    document.getElementById("prestige").style.display = "block";
+                }
+                if (tick <= 50) {
+                    document.getElementById("megaPrestige").style.display = "block";
+                }
+                if (tick <= 1) {
+                    tick = 1;
+                    tickAmount -= 1;
+                    score += tickCost*(tickAmount/2)
+                }
+            }
+        }
+
+        function upgradeAuto() {
+            if (score >= autoTickCost*(autoTickAmount*1/2)) {
+                score -= autoTickCost * (autoTickAmount*1/2)
+                autoTickAmount += 1;
+                document.getElementById("upgradeAutoTicks").innerHTML = "AutoTick Upgrade Cost: " + autoTickCost*(autoTickAmount*1/2);
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+        function newAuto() {
+            if (score >= upgradeAutoTickCost*(upgradeAutoTickAmount*3)) {
+                score -= upgradeAutoTickCost * (upgradeAutoTickAmount*3)
+                upgradeAutoTickAmount += 1;
+                document.getElementById("autoTickUpgrade").innerHTML = "Ticker Upgrade Cost: " + upgradeAutoTickCost*(upgradeAutoTickAmount*3);
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+        function autoBuyBot() {
+            if (score >= autoBuyCost*(autoBuyAmount)) {
+                score -= autoBuyCost*(autoBuyAmount)
+                autoBuyAmount += 1;               
+                for (x = 0; x < autoBuyAmount; x++) {
+                    autoBuyCheck = clearInterval(autoBuyCheck);
+                    autoBuyCheck = null;
+                }
+                document.getElementById("autoBuy").innerHTML = "Auto Buy Upgrade Cost: " + autoBuyCost*(autoBuyAmount);
+                if (autoBuyCheck == null) {
+                    autoBuyCheck = setInterval(autoBuy, autoBuyTime-(autoBuyAmount*100));
+                } else {
+                    autoBuyCheck = clearInterval(autoBuy)
+                    autoBuyCheck = setInterval(autoBuy, autoBuyTime-(autoBuyAmount*100));
+                }
+                if (autoBuyAmount >= 10) {
+                    autoBuyAmount = 10;
+                    score += autoBuyCost*(autoBuyAmount);
+                }
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+        function expAutoTick() {
+            if (score >= expAutoTickCost*(expAutoTickAmount*1/2)) {
+                score -= expAutoTickCost*(expAutoTickAmount*1/2) 
+                expAutoTickAmount += 1
+                document.getElementById("expAutoTick").innerHTML = "EXP Auto Tick Cost: " + expAutoTickCost*(expAutoTickAmount*1/2);
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+        function autoTickExp() {
+            if (score >= expBuyCost*expBuyAmount*expUpgradeAmount) {
+                score -= expBuyCost*expBuyAmount*expUpgradeAmount
+                expBuyAmount += 1;
+                document.getElementById("expUpgrader").innerHTML = "Auto Tick EXP Upgrader Cost: " + expBuyCost*expBuyAmount*expUpgradeAmount;
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+        function autoBuy() {            
+            for (x = 0; x < autoBuyAmount; x++) {
+                autoBuyCheck = clearInterval(autoBuy);
+                autoBuyCheck = null;
+            }
+            upgradeTicks();
+            upgradeAuto();
+        }
+
+        function productionMultiplier(x, obj) {
+            if (score >= 10000 && x == 1) {
+                obj.style.display = "none";
+                score -= 10000;
+                multiplier = multiplier*2;
+                hasBoughtMultiplier = 1;
+                updateValues();
+                totalUpgrades += 1;
+            }
+        }
+
+
+        function autoTicks() {
+            return ((((tickUpgradeAmount * autoTickAmount/2) + (upgradeAutoTickAmount) + (expAutoTickAmount*5))) + (expBuyAmount*10)) * multiplier;
+        }
+
+        // prestige
+
+        function checkPrestige() {
+            var tickPoints = 0;
+            if ((Math.floor(totalTicks/1e6) * prestigeMultiplier > 1e5)) {
+                tickPoints = (Math.floor(totalTicks/1e6) * prestigeMultiplier).toExponential(3);
+            } else {
+                tickPoints = (Math.floor(totalTicks/1e6) * prestigeMultiplier);
+            }
+            if (window.confirm("Are you sure you want to prestige? (You will get " + tickPoints + " tick points) Note: It is not recommended to prestige with 0 tick points") == true) {
+                prestige()
+            }
+        }
+
+        function prestige() {
+            prestigePoints += Math.floor(totalTicks/1e6);
+            prestigePoints *= prestigeMultiplier;
+
+            document.getElementById("prestigeUpgrades").style.display = "block"
+            document.getElementById("autoTickUpgrade").style.display = "none";
+            document.getElementById("autoBuy").style.display = "none";
+            document.getElementById("expUpgrader").style.display = "none";                 
+            document.getElementById("expAutoTick").style.display = "none";
+            document.getElementById("productionMultiplier").style.display = "none";
+            document.getElementById("prestige").style.display = "none";
+            
+            for (x = 0; x < autoBuyAmount; x++) {
+                autoBuyCheck = clearInterval(autoBuyCheck);
+                autoBuyCheck = null;
+            }
+
+            // Other
+
+             instructions = 0;
+             holding = 0;
+             score = 0;
+             tick = 100;
+             spaceBarIncrease = 0.00001;
+
+            // Ticks
+
+             tickCost = 1;
+             tickAmount = 1;
+             tickUpgradeAmount = 0.25;
+
+            // Auto Ticks
+            
+             autoTickCost = 5;
+             autoTickAmount = 0;
+             autoTickUpgradeAmount = 1;
+
+            // Upgraded Auto Ticks
+            
+             upgradeAutoTickCost = 10;
+             upgradeAutoTickAmount = 0;
+
+            // Upgrades
+             multiplier = originalMultiplier;
+             hasBoughtMultiplier = 0;
+            if (firstTPSUpgrade == 1) {
+                multiplier *= 3
+            } 
+            if (secondTPSUpgrade == 1) {
+                multiplier *=5
+            }
+            if (thirdTPSUpgrade == 1) {
+                multiplier *= 10
+            }
+            if (fourthTPSUpgrade == 1) {
+                multiplier *= 100
+            }
+
+            multiplier += prestigePoints / 10;  
+
+            // Auto Buy
+
+             autoBuyCost = 500;
+             autoBuyAmount = 1;
+             autoBuyTime = 10000;
+             autoBuyCheck = null;
+
+             autoBuyNumber = 0;
+
+            // Upgrade EXP ticks
+             expBuyCost = 5000;
+             expBuyAmount = 0;
+             expUpgradeAmount = 10;
+
+            // EXP Auto Tick
+             expAutoTickCost = 2500;
+             expAutoTickAmount = 0;
+             expUpgradeAmount = 1;
+
+            // Prestige
+            var prestigeCheck = 1e6;
+
+            updateValues();
+            permanentMPSUpgrade();
+            
+            if (firstTick == 1) {
+                tick -= 10
+            }
+            if (secondTick == 1) {
+                tick -= 20
+            }
+            if (firstScore == 1) {
+                score += 1e6
+            }
+            if (secondScore == 1) {
+                score += 1e10
+            }
+            if (firstMPS == 1) {                
+                prestigeMultiplier *= 10;
+            }
+        }
+
+        // prestige upgrades
+        function permanentTPSUpgrade(x) {
+            if (x == 3 && prestigePoints >= 1 && firstTPSUpgrade == 0) {
+                multiplier *= 3;
+                prestigePoints -= 1;
+                document.getElementById("firstTPSUpgrade").style.color = "red";
+                firstTPSUpgrade = 1;
+            } else if (x == 5 && prestigePoints >= 100 && secondTPSUpgrade == 0) {
+                multiplier = multiplier * 5;
+                prestigePoints -= 100;
+                document.getElementById("secondTPSUpgrade").style.color = "red";
+                secondTPSUpgrade = 1
+            } else if (x == 10 && prestigePoints >= 1000 && thirdTPSUpgrade == 0) {
+                multiplier = multiplier * 10;
+                prestigePoints -= 1000;
+                document.getElementById("thirdTPSUpgrade").style.color = "red";
+                thirdTPSUpgrade = 1
+            } else if (x == 100 && prestigePoints >= 25000 && fourthTPSUpgrade == 0) {
+                multiplier = multiplier * 100;
+                prestigePoints -= 25000;
+                document.getElementById("fourthTPSUpgrade").style.color = "red";
+                fourthTPSUpgrade = 1;
+            }
+            if (firstTPSUpgrade == 1) {
+                document.getElementById("firstTPSUpgrade").style.color = "red";
+            } 
+             if (secondTPSUpgrade == 1) {
+                document.getElementById("secondTPSUpgrade").style.color = "red";
+            } 
+             if (thirdTPSUpgrade == 1) {
+                document.getElementById("thirdTPSUpgrade").style.color = "red";
+            } 
+             if (fourthTPSUpgrade == 1) {
+                document.getElementById("fourthTPSUpgrade").style.color = "red";
+            }
+        }
+
+        function tickStart(x) {
+            if (x == 1 && prestigePoints >= 50 && firstTick == 0) {
+                tick -= 10;
+                firstTick = 1;
+                prestigePoints -= 50;
+                document.getElementById("firstTickStart").style.color = "red";
+            } else if (x == 2 && prestigePoints >= 2500 && secondTick == 0) {
+                tick -= 20;
+                secondTick = 1;
+                prestigePoints -= 2500
+                document.getElementById("secondTickStart").style.color = "red";
+            }
+            if (firstTick == 1) {
+                document.getElementById("firstTickStart").style.color = "red";                
+            }
+            if (secondTick == 1) {
+                document.getElementById("secondTickStart").style.color = "red";               
+            }
+        }
+
+        function scoreStart(x) {
+            if (x == 1 && prestigePoints >=500 && firstScore == 0) {
+                score += 1e6;
+                firstScore = 1;
+                prestigePoints -= 500;
+                document.getElementById("firstScoreStart").style.color = "red";
+            } else if (x == 2 && prestigePoints >= 5000 && secondScore == 0) {
+                score += 1e10
+                secondScore = 1;
+                prestigePoints -= 5000
+                document.getElementById("secondScoreStart").style.color = "red";
+            }
+            if (firstScore == 1) {
+                document.getElementById("firstScoreStart").style.color = "red";                
+            } 
+            if (secondScore == 1) {
+                document.getElementById("secondScoreStart").style.color = "red";
+            }
+        } 
+
+        function checkMegaPrestige() {
+            var megaPoints = 0;
+            if (Math.floor(prestigePoints/1e12) > 1e5) {
+                megaPoints = Math.floor(prestigePoints/1e12).toExponential(3)
+            } else {
+                megaPoints = Math.floor(prestigePoints/1e12);
+            }
+            if (window.confirm("Are you sure you want to MEGA prestige? You will get " + megaPoints + " MEGA prestige points. !IMPORTANT! Doing this will reset ALL your progress, including your total ticks, prestige points, and prestige upgrades.")) {
+                megaPrestige();
+            }
+        }
+
+        function megaPrestige() { 
+            MPSPoints += Math.floor(prestigePoints/1e12);
+            multiplier *= Math.floor(prestigePoints/1e12);
+            resetProgress();      
+            document.getElementById("prestigeUpgrades").style.display = "block"
+            document.getElementById("autoTickUpgrade").style.display = "none";
+            document.getElementById("autoBuy").style.display = "none";
+            document.getElementById("expUpgrader").style.display = "none";                 
+            document.getElementById("expAutoTick").style.display = "none";
+            document.getElementById("productionMultiplier").style.display = "none";
+            document.getElementById("prestige").style.display = "none";
+            document.getElementById("prestigeUpgrades").style.display = "none";
+            document.getElementById("megaPrestige").style.display = "none"  
+            document.getElementById("megaPrestigeUpgrades").style.display = "block" 
+            document.getElementById("megaPoints").innerHTML = "Mega Prestige Upgrades (" + MPSPoints + " mega prestige points)" 
+        }
+
+        // Mega Prestige Upgrades
+        function permanentMPSUpgrade(x) {
+            if (x==1 && MPSPoints >= 1 && firstMPS == 0) {
+                MPSPoints -= 1;
+                prestigeMultiplier *= 10;
+                multiplier *= 10000;
+                firstMPS = 1;
+                document.getElementById("firstMPSUpgrade").style.color = "red";
+            } else if (x==2 && MPSPoints >= 1e50 && secondMPS == 0) {
+                MPSPoints -= 1e50;
+                prestigeMultiplier *= 1e10;
+                multiplier *= 1e25;
+                secondMPS = 1;
+                document.getElementById("secondMPSUpgrade").style.color = "red";
+            }
+            if (firstMPS == 1) {                
+                document.getElementById("firstMPSUpgrade").style.color = "red";
+            }
+            if (secondMPS == 1) {                
+                document.getElementById("secondMPSUpgrade").style.color = "red";
+            }
+        }
+
+        function updateValues() {      
+            if (score <= 0) {
+                score = 0
+            }      
+            if (score >= 1e5) {
+                document.getElementById("score").value = score.toExponential(3);
+            } else {
+                document.getElementById("score").value = score.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
+            if ((autoTicks()).toFixed(3) >= 1e5) {
+                document.getElementById("cps").value = ((autoTicks())).toExponential(2) + " ticks per " + tick + "ms";
+            } else {
+                document.getElementById("cps").value = (autoTicks()).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + " ticks per " + tick + "ms";                
+            }
+            document.getElementById("autoBuy").innerHTML = "Auto Buy Upgrade Cost: " + (autoBuyCost*(autoBuyAmount)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+            document.getElementById("autoTickUpgrade").innerHTML = "Ticker Upgraded Cost: " + (upgradeAutoTickCost*(upgradeAutoTickAmount*3)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+            document.getElementById("upgradeAutoTicks").innerHTML = "AutoTick Upgrade Cost: " + (autoTickCost*(autoTickAmount*1/2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+            document.getElementById("upgradeTicks").innerHTML = "Tick Upgrade Cost: " + (tickCost*(tickAmount/2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+            document.getElementById("tickSpeed").value = "Tick: " + tick;
+            document.getElementById("expUpgrader").innerHTML = "Auto Tick EXP Upgrader Cost: " + (expBuyCost*expBuyAmount*expUpgradeAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');;
+            if (multiplier >= 1e5) {
+                document.getElementById("multiplier").innerHTML = "Multiplier: " + multiplier.toExponential(3);
+            } else {
+                document.getElementById("multiplier").innerHTML = "Multiplier: " + multiplier.toFixed(3);
+            }
+            document.getElementById("expAutoTick").innerHTML = "EXP Auto Tick Cost: " + (expAutoTickCost*(expAutoTickAmount*1/2)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if (prestigePoints >= 1e5) {
+                document.getElementById("prestigePoints").innerHTML = "Prestige Upgrades (" + prestigePoints.toExponential(3) + " prestige points)";
+            } else {
+                document.getElementById("prestigePoints").innerHTML = "Prestige Upgrades (" + prestigePoints + " prestige points)";
+            }
+            if (totalUpgrades == 10) {
+                document.getElementById("firstUpgradeAchievement").style.display = "block"
+            }
+            if (upgradeAchievement == 1) {
+                document.getElementById("firstUpgradeAchievement").style.display = "block"
+            }
+            if (totalUpgrades >= 10) {
+                achivement(1);
+            }
+            document.getElementById("megaPoints").innerHTML = "Mega Prestige Upgrades (" + MPSPoints.toFixed(3) + " mega prestige points)" 
+        }
+
+        var achievementShow = 0;
+
+        function showAchievements(t) {
+            if (achievementShow == 0) {
+                achievementShow = 1;
+                document.getElementById("achievementsDisplay").style.display = "block"
+                t.innerHTML = "Hide Achievements"
+            } else {                
+                document.getElementById("achievementsDisplay").style.display = "none"
+                t.innerHTML = "Show Achievements"
+                achievementShow = 0;
+            }
+        }
+
+        function updateStats() {
+            if (totalTicks >= 1e5) {
+                document.getElementById("totalTicks").innerHTML = "Life Time Ticks: " + totalTicks.toExponential(3);
+            } else {
+                document.getElementById("totalTicks").innerHTML = "Life Time Ticks: " + totalTicks.toFixed(3);
+            }
+        }
+        setInterval(updateStats, 1000);
+
+        function save(y) {
+            if (y==1) {
+                var key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ=1234567890.;-/$";
+                key = key.toLowerCase();
+                var string = "score=" + score + ";tick=" + tick.toFixed(2) + ";tickcost=" + tickCost + ";tickamount=" + tickAmount + ";tickupgradeamount=" + tickUpgradeAmount + ";autotickcost=" + autoTickCost + ";autotickamount=" + autoTickAmount + "autotickupgradeamount" + autoTickUpgradeAmount + ";upgradeautotickcost=" + upgradeAutoTickCost + ";upgradeautotickamount=" + upgradeAutoTickAmount + ";originalmultiplier=" + originalMultiplier + ";multiplier=" + multiplier + ";hasboughtmultiplier=" + hasBoughtMultiplier + ";autobuycost=" + autoBuyCost + "autobuyamount=" + autoBuyAmount + ";autobuytime=" + autoBuyTime + ";autobuycheck=" + autoBuyCheck + ";autobuynumber=" + autoBuyNumber + ";expbuycost=" + expBuyCost + ";expbuyamount=" + expBuyAmount + ";expupgradeamount=" + expUpgradeAmount + ";totalticks=" + totalTicks + ";expautotickcost=" + expAutoTickCost + ";expautotickamount=" + expAutoTickAmount + ";expupgradeamount=" + expUpgradeAmount + ";prestigepoints=" + prestigePoints + ";firsttpsupgrade=" + firstTPSUpgrade + ";secondtpsupgrade=" + secondTPSUpgrade + ";thirdtpsupgrade=" + thirdTPSUpgrade + ";fourthtpsupgrade=" + fourthTPSUpgrade + ";firsttick=" + firstTick + ";secondtick=" + secondTick + ";firstscore=" + firstScore + ";secondscore=" + secondScore + ";timepassed=" + Date.now() + ";mpspoints=" + MPSPoints + ";firstmps=" + firstMPS + ";totalupgrades=" + totalUpgrades + ";upgradeachievement=" + upgradeAchievement + ";prestigemultiplier=" + prestigeMultiplier + ";secondmps=" + secondMPS + ";";
+                var encodedString = "";
+                for (i = 0; i < string.length; i++) {
+                    for (x = 0; x < key.length; x++) {
+                        if (string[i]==key[x]) {
+                            encodedString += key[x+3];
+                        }
+                    }
+                }
+                
+                download(encodedString, "easygame", "txt")
+            }
+        }
+
+        function download(data, filename, type) {
+            var file = new Blob([data], {type: type});
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                        url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);  
+                }, 0); 
+            }
+         }
+
+         var statsHide = 0;
+
+         function showStats() {
+             if (statsHide == 0) {
+                document.getElementById("stats").style.display = "block"
+                document.getElementById("showStats").innerHTML = "Hide Stats"
+                statsHide = 1;
+             } else {
+                 statsHide = 0;
+                 document.getElementById("stats").style.display = "none"
+                 document.getElementById("showStats").innerHTML = "Show Stats"
+             }
+         }
+    </script>
+</head>
+<body>
+    
+    <input type="text" id="score" disabled /> 
+    <input type="text" id="tickSpeed" disabled value="Tick: 100" />
+    <input type="text" id="cps" disabled value="" />
+
+    <br>
+
+    <div id="upgrades" style="border: 1px solid black;">
+        <button onclick="upgradeTicks()" id="upgradeTicks">Tick Upgrade Cost: 1</button>
+        <button onclick="upgradeAuto()" id="upgradeAutoTicks">AutoTick Upgrade Cost: 0</button>
+        <button onclick="newAuto()" id="autoTickUpgrade" style="display: none;">UpgradeAutoTick Upgrade Cost: 0</button>
+        <button onclick="autoBuyBot()" id="autoBuy" style="display: none;">Auto Buy Upgrade Cost: 0</button>
+        <button onclick="expAutoTick()" id="expAutoTick" style="display: none;">EXP Auto Tick Cost: 0</button>
+        <button onclick="autoTickExp()" id="expUpgrader" style="display: none;">Auto Tick EXP Upgrader Cost: 0</button>
+        <button onclick="checkPrestige()" id="prestige" style="display: none; background-color: red !important; ">Prestige</button>
+        <button onclick="checkMegaPrestige()" id="megaPrestige" style="display: none; background-color: aqua !important;">MEGA Prestige</button>
+    </div>
+    <div id="upgradesUpgrade">
+        <button onclick="productionMultiplier(1, this)" id="productionMultiplier" style="display: none;">Production Multiplier (2x): 10000</button>
+    </div>
+    <div id="prestigeUpgrades" style="display: none;">
+        <h1 id="prestigePoints">Prestige Upgrades (0 prestige points)</h1>
+        <button onclick="permanentTPSUpgrade(3)" id="firstTPSUpgrade">Permanent x3 TPS Upgrade (1 prestige point)</button>
+        <button onclick="tickStart(1)" id="firstTickStart">Start at 90 ticks (50 prestige point)</button>
+        <button onclick="permanentTPSUpgrade(5)" id="secondTPSUpgrade">Permanent x5 TPS Upgrade (100 prestige point)</button>
+        <button onclick="scoreStart(1)" id="firstScoreStart">Start with 1e6 points (500 prestige point)</button>
+        <button onclick="permanentTPSUpgrade(10)" id="thirdTPSUpgrade">Permanent x10 TPS Upgrade (1000 prestige point)</button>
+        <button onclick="tickStart(2)" id="secondTickStart">Start at 80 ticks (2500 prestige point)</button>
+        <button onclick="scoreStart(2)" id="secondScoreStart">Start with 1e10 points (5000 prestige point)</button>
+        <button onclick="permanentTPSUpgrade(100)" id="fourthTPSUpgrade">Permanent x100 TPS Upgrade (25000 prestige point)</button>
+    </div>
+    <div id="megaPrestigeUpgrades" style="display:none">
+        <h1 id="megaPoints">Mega Prestige Upgrades (0 mega prestige points)</h1>
+        <button onclick="permanentMPSUpgrade(1)" id="firstMPSUpgrade">Permanently get x10 prestige points & x10000 multiplier (1 mega prestige point)</button>
+        <button onclick="permanentMPSUpgrade(2)" id="secondMPSUpgrade">Permanently get x1e10 prestige points & x1e25 multiplier (1e50 mega prestige point)</button>
+    </div>
+
+    <br>
+
+    <button id="showStats" onclick="showStats()">Show Stats</button>
+    <div id="stats" style="display: none;">
+        <h2 id="totalTicks">Life Time Ticks: 0</h2>
+        <h2 id="multiplier">Multiplier: 1</h2>
+    </div>
+
+    <br>
+
+    <button onclick="showAchievements(this)">Show Achievements</button>
+    <div id="achievementsDisplay" style="border: 1px solid white; display: none;">
+        <h1>Achievements: </h1>
+        <br>
+        <div id="firstUpgradeAchievement" style="display: none; background-color: gray;"><h2>Buy 10 upgrades</h2></div>
+        <br>
+    </div>
+
+    <br>
+
+    <button onclick="instructionsToggle()" id="instructionsButton">Show Instructions</button>
+    <div id="instructions" style="display: none;">
+        <h1>Instructions:</h1>
+        <h2>Hold down your spacebar, and watch numbers grow</h2>
+        <h2>Buy upgrades to make numbers grow faster</h2>
+        <h2>Every -5.00 tick, you get another upgrade.</h2>
+        <h2>After you get a certain amount, you can prestige</h2>
+        <h2>Then, repeat. You can buy PERMANANT upgrades after you prestige.</h2>
+        <h2>FUN and SIMPLE game</h2>
+        <h2>Note: The tick determines how fast you are able to produce ticks.</h2>
+        <h2>Note: Holding down the spacebar will slowly make your tps go up.</h2>
+        <h2>Note: You get one "tick" point every 1e6 ticks</h2>
+        <h2>Note: You get one "mega" point every 1e12 prestige points</h2>
+    </div>
+
+    <br>
+
+    <button onclick="save(1)" id="saveButton">Save to file</button>
+    <label for="upload">Load from file</label>
+
+    <form enctype="multipart/form-data">
+        <input id="upload" type=file name="files[]" size=30 hidden />
+        </form>
+        
+        <script>
+        function handleFileSelect(evt) {
+            let files = evt.target.files; // FileList object
+        
+            // use the 1st file from the list
+            let f = files[0];
+            
+            let reader = new FileReader();
+        
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+                return function(e) {                
+                    
+                    var key = "ABCDEFGHIJKLMNOPQRSTUVWXYZ=1234567890.;-/$"
+                    key = key.toLowerCase();
+                    var string=e.target.result;
+                    var encodedString = "";
+                    var arrayVar = []
+                    for (i = 0; i < string.length; i++) {
+                        for (x = 0; x < key.length; x++) {
+                            if (string[i]==key[x]) {
+                                if (key[x-3] == ";" || key[x-3] == "=") {
+                                    arrayVar.push(encodedString);
+                                    encodedString = ""
+                                } else {
+                                    encodedString += key[x-3];         
+                                }                    
+                            }
+                        }
+                    }
+                    for(x = 0; x < arrayVar.length; x++) {
+                        if (arrayVar[x] == "score") {
+                            score = arrayVar[x+1]
+                            score = parseFloat(score)
+                        } else if (arrayVar[x] == "tick") {
+                            tick = arrayVar[x+1]
+                            tick = parseInt(tick);
+                            updateValues();
+                        } else if (arrayVar[x] == "tickcost") {
+                            tickCost = arrayVar[x+1];
+                            tickCost = parseInt(tickCost)
+                        } else if (arrayVar[x] == "tickamount") {
+                            tickAmount = arrayVar[x+1];
+                            tickAmount = parseInt(tickAmount)
+                        } else if (arrayVar[x] == "tickupgradeamount") {
+                            tickUpgradeAmount = arrayVar[x+1]
+                            tickUpgradeAmount = parseFloat(tickUpgradeAmount)
+                        } else if (arrayVar[x] == "autotickcost") {
+                            autoTickCost = arrayVar[x+1]
+                            autoTickCost = parseInt(autoTickCost);
+                        } else if (arrayVar[x] == "autotickamount") {
+                            autoTickAmount = arrayVar[x+1]
+                            autoTickAmount = parseInt(autoTickAmount)
+                        } else if (arrayVar[x] == "autotickupgradeamount") {
+                            autoTickUpgradeAmount = arrayVar[x+1]
+                            autoTickUpgradeAmount = parseInt(autoTickUpgradeAmount)
+                        } else if (arrayVar[x] == "upgradeautotickcost") {
+                            upgradeAutoTickCost = arrayVar[x+1]
+                            upgradeAutoTickCost = parseInt(upgradeAutoTickCost);
+                        } else if (arrayVar[x] == "upgradeautotickamount") {
+                            upgradeAutoTickAmount = arrayVar[x+1];
+                            upgradeAutoTickAmount = parseInt(upgradeAutoTickAmount);
+                        } else if (arrayVar[x] == "originalMultiplier") {
+                            originalMultiplier = arrayVar[x+1];
+                            originalMultiplier = parseFloat(originalMultiplier)
+                        } else if (arrayVar[x] == "multiplier") {
+                            multiplier = arrayVar[x+1];
+                            multiplier = parseFloat(multiplier);
+                        } else if (arrayVar[x] == "hasboughtmultiplier") {
+                            hasBoughtMultiplier = arrayVar[x+1]
+                            hasBoughtMultiplier = parseInt(hasBoughtMultiplier)
+                        } else if (arrayVar[x] == "autobuycost") {
+                            autoBuyCost = arrayVar[x+1]
+                            autoBuyCost = parseInt(autoBuyCost)
+                        } else if (arrayVar[x] == "autobuyamount") {
+                            autoBuyAmount = arrayVar[x+1]
+                            autoBuyAmount = parseInt(autoBuyAmount)
+                        } else if (arrayVar[x] == "autobuytime") {
+                            autoBuyTime = arrayVar[x+1]
+                            autoBuyTime = parseInt(autoBuyTime)
+                        } else if (arrayVar[x] == "autobuycheck") {
+                            autoBuyCheck = arrayVar[x+1]
+                        } else if (arrayVar[x] == "autobuynumber") {
+                            autoBuyNumber = arrayVar[x+1];
+                            autoBuyNumber = parseInt(autoBuyNumber)
+                        } else if (arrayVar[x] == "expbuycost") {
+                            expBuyCost = arrayVar[x+1] 
+                            expBuyCost = parseInt(expBuyCost)
+                        } else if (arrayVar[x] == "expbuyamount") {
+                            expBuyAmount = arrayVar[x+1]
+                            expBuyAmount = parseInt(expBuyAmount)
+                        } else if (arrayVar[x] == "expupgradeamount") {
+                            expUpgradeAmount = arrayVar[x+1]
+                            expUpgradeAmount = parseInt(expUpgradeAmount);
+                        } else if (arrayVar[x] == "totalticks") {
+                            totalTicks = arrayVar[x+1]
+                            totalTicks = parseFloat(totalTicks);
+                        } else if (arrayVar[x] == "expautotickcost") {
+                            expAutoTickCost = arrayVar[x+1]
+                            expAutoTickCost = parseInt(expAutoTickCost)
+                        } else if (arrayVar[x] == "expautotickamount") {
+                            expAutoTickAmount = arrayVar[x+1]
+                            expAutoTickAmount = parseInt(expAutoTickAmount)
+                        } else if (arrayVar[x] == "expupgradeamount") {
+                            expUpgradeAmount = arrayVar[x+1]
+                            expUpgradeAmount = parseInt(expUpgradeAmount);
+                        } else if (arrayVar[x] == "prestigepoints") {
+                            prestigePoints = arrayVar[x+1];
+                            prestigePoints = parseInt(prestigePoints);
+                        } else if (arrayVar[x]=="firsttpsupgrade") {
+                            firstTPSUpgrade = arrayVar[x+1];
+                            firstTPSUpgrade = parseInt(firstTPSUpgrade)
+                        } else if (arrayVar[x] == "secondtpsupgrade") {
+                            secondTPSUpgrade = arrayVar[x+1];
+                            secondTPSUpgrade = parseInt(secondTPSUpgrade)
+                        } else if (arrayVar[x] == "thirdtpsupgrade") {
+                            thirdTPSUpgrade = arrayVar[x+1];
+                            thirdTPSUpgrade = parseInt(thirdTPSUpgrade)
+                        } else if (arrayVar[x] == "fourthtpsupgrade") {
+                            fourthTPSUpgrade = arrayVar[x+1]
+                            fourthTPSUpgrade = parseInt(fourthTPSUpgrade);
+                        } else if (arrayVar[x] == "firsttick") {
+                            firstTick = arrayVar[x+1];
+                            firstTick = parseInt(firstTick)
+                        } else if (arrayVar[x] == "secondtick") {
+                            secondTick = arrayVar[x+1]
+                            secondTick = parseInt(secondTick)
+                        } else if (arrayVar[x] == "firstscore") {
+                            firstScore = arrayVar[x+1]
+                            firstScore = parseFloat(firstScore)
+                        } else if (arrayVar[x] == "secondscore") {
+                            secondScore = arrayVar[x+1]
+                            secondScore = parseInt(secondScore);
+                        } else if (arrayVar[x] == "mpspoints") {
+                            MPSPoints = arrayVar[x+1]
+                            MPSPoints = parseInt(MPSPoints)
+                        } else if (arrayVar[x] == "firstmps") {
+                            firstMPS = arrayVar[x+1]
+                            firstMPS = parseInt(firstMPS)
+                        } else if (arrayVar[x] == "totalupgrades") {
+                            totalUpgrades = arrayVar[x+1]
+                            totalUpgrades = parseInt(totalUpgrades)
+                        } else if (arrayVar[x] == upgradeAchievement) {
+                            upgradeAchievement = arrayVar[x+1]
+                            upgradeAchievement = parseInt(upgradeAchievement)
+                        } else if (arrayVar[x] == "prestigemultiplier") {
+                            prestigeMultiplier = arrayVar[x+1]
+                            prestigeMultiplier = parseInt(prestigeMultiplier)
+                        } else if (arrayVar[x] == "secondmps") {
+                            secondMPS = arrayVar[x+1]
+                            secondMPS = parseInt(secondMPS);
+                        }
+                        permanentMPSUpgrade();
+                        if (autoBuyAmount >= 1) {
+                            autoBuyCheck = setInterval(autoBuy, autoBuyTime-(autoBuyAmount*100))
+                        }
+                        if (MPSPoints >= 1 || firstMPS == 1) {
+                            document.getElementById("megaPrestigeUpgrades").style.display = "block"
+                        }                   
+                        if (arrayVar[x] == "timepassed") {
+                            var timePassed = Date.now() - arrayVar[x+1];
+                            score += (timePassed/1000) * autoTicks();
+                            totalTicks += (timePassed/1000) * autoTicks();
+                            alert ("While you were away, you made " + Math.round(((timePassed/tick) * autoTicks()))/100) + " ticks";
+                        }
+                    }
+                    permanentTPSUpgrade();
+                    tickStart();
+                    scoreStart();
+                    autoBuy();
+                    if (prestigePoints >= 1) {                        
+                        document.getElementById("prestigeUpgrades").style.display = "block"
+                        document.getElementById("autoTickUpgrade").style.display = "none";
+                        document.getElementById("autoBuy").style.display = "none";
+                        document.getElementById("expUpgrader").style.display = "none";                 
+                        document.getElementById("expAutoTick").style.display = "none";
+                        document.getElementById("productionMultiplier").style.display = "none";
+                        document.getElementById("prestige").style.display = "none";
+                    }
+                    upgradeTicks();
+                };
+              })(f);
+        
+              // Read in the image file as a data URL.
+              reader.readAsText(f);
+          }
+        
+          document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+
+          function resetProgress() {
+            // Other
+
+             instructions = 0;
+             holding = 0;
+             score = 0;
+             tick = 100;
+             spaceBarIncrease = 0.00001;
+            
+            // Ticks
+
+             tickCost = 1;
+             tickAmount = 1;
+             tickUpgradeAmount = 0.25;
+
+            // Auto Ticks
+            
+             autoTickCost = 5;
+            autoTickAmount = 0;
+             autoTickUpgradeAmount = 1;
+
+            // Upgraded Auto Ticks
+            
+             upgradeAutoTickCost = 10;
+             upgradeAutoTickAmount = 0;
+
+            // Upgrades
+             originalMultiplier = 1;
+             multiplier = 1;
+             if (firstMPS == 1) {
+                 multiplier *= 10000;
+             }
+             if (secondMPS == 1) {
+                 multiplier *= 1e15;
+             }
+             hasBoughtMultiplier = 0;
+
+            // Auto Buy
+
+             autoBuyCost = 500;
+             autoBuyAmount = 1;
+             autoBuyTime = 10000;
+             autoBuyCheck = null;
+
+             autoBuyNumber = 0;
+
+            // Upgrade EXP ticks
+             expBuyCost = 5000;
+             expBuyAmount = 0;
+             expUpgradeAmount = 10;
+
+            // EXP Auto Tick
+             expAutoTickCost = 2500;
+             expAutoTickAmount = 0;
+             expUpgradeAmount = 1;
+
+            // Saves
+             string = ""
+             load = ""
+
+            // Stats
+             totalTicks = 0;
+
+            // Prestige
+             prestigePoints = 0;
+             prestigeMultiplier = 1;
+             prestigeCheck = 100000;
+
+             firstTPSUpgrade = 0;
+             secondTPSUpgrade = 0;
+             thirdTPSUpgrade = 0;
+             fourthTPSUpgrade = 0;
+
+            firstTick = 0;
+             secondTick = 0;
+
+             firstScore = 0;
+             secondScore = 0;
+
+             
+             document.getElementById("firstTPSUpgrade").style.color = "white";
+            document.getElementById("secondTPSUpgrade").style.color = "white";
+            document.getElementById("thirdTPSUpgrade").style.color = "white";
+            document.getElementById("fourthTPSUpgrade").style.color = "white";
+            document.getElementById("firstTickStart").style.color = "white";      
+            document.getElementById("secondTickStart").style.color = "white";   
+            document.getElementById("firstScoreStart").style.color = "white";  
+            document.getElementById("secondScoreStart").style.color = "white";
+        }
+        </script>
+
+</body>
+</html>
